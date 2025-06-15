@@ -1,10 +1,9 @@
 import axios from 'axios';
 import type { Champion, ChampionDetails } from '../types/champion';
 
-const RIOT_API_KEY = 'RGAPI-486450b9-af97-4c26-900e-ecb19de36ba3';
 const DATA_DRAGON_BASE = 'https://ddragon.leagueoflegends.com';
 
-// Спочатку отримуємо актуальну версію гри
+// Get latest game version
 const getLatestVersion = async (): Promise<string> => {
   try {
     const response = await axios.get(`${DATA_DRAGON_BASE}/api/versions.json`);
@@ -16,7 +15,7 @@ const getLatestVersion = async (): Promise<string> => {
 };
 
 export const championService = {
-  // Отримати всіх чемпіонів
+  // Get all champions
   async getAllChampions(): Promise<Champion[]> {
     try {
       const version = await getLatestVersion();
@@ -32,7 +31,7 @@ export const championService = {
     }
   },
 
-  // Отримати детальну інформацію про чемпіона
+  // Get champion details
   async getChampionDetails(championName: string): Promise<ChampionDetails> {
     try {
       const version = await getLatestVersion();
@@ -48,25 +47,25 @@ export const championService = {
     }
   },
 
-  // Отримати URL для зображення чемпіона
+  // Get champion image URL
   async getChampionImageUrl(imageName: string): Promise<string> {
     const version = await getLatestVersion();
     return `${DATA_DRAGON_BASE}/cdn/${version}/img/champion/${imageName}`;
   },
 
-  // Отримати URL для зображення здібності
+  // Get spell image URL
   async getSpellImageUrl(imageName: string): Promise<string> {
     const version = await getLatestVersion();
     return `${DATA_DRAGON_BASE}/cdn/${version}/img/spell/${imageName}`;
   },
 
-  // Отримати URL для зображення пасивної здібності
+  // Get passive image URL
   async getPassiveImageUrl(imageName: string): Promise<string> {
     const version = await getLatestVersion();
     return `${DATA_DRAGON_BASE}/cdn/${version}/img/passive/${imageName}`;
   },
 
-  // Пошук чемпіонів
+  // Search champions
   searchChampions: async (champions: Champion[], query: string): Promise<Champion[]> => {
     const lowercaseQuery = query.toLowerCase();
     return champions.filter(champion => 
@@ -76,7 +75,7 @@ export const championService = {
     );
   },
 
-  // Фільтрація за роллю
+  // Filter by role
   filterByRole: async (champions: Champion[], role: string): Promise<Champion[]> => {
     if (role === 'all') return champions;
     return champions.filter(champion => champion.tags.includes(role));

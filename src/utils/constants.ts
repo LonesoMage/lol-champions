@@ -1,16 +1,13 @@
-export const RIOT_API_ENDPOINTS = {
+export const API_CONFIG = {
   DATA_DRAGON_BASE: 'https://ddragon.leagueoflegends.com',
-  VERSIONS: 'https://ddragon.leagueoflegends.com/api/versions.json',
-  CHAMPIONS_DATA: (version: string) => 
-    `https://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/champion.json`,
-  CHAMPION_DETAILS: (version: string, championName: string) => 
-    `https://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/champion/${championName}.json`,
-  CHAMPION_IMAGE: (version: string, imageName: string) => 
-    `https://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${imageName}`,
-  SPELL_IMAGE: (version: string, imageName: string) => 
-    `https://ddragon.leagueoflegends.com/cdn/${version}/img/spell/${imageName}`,
-  PASSIVE_IMAGE: (version: string, imageName: string) => 
-    `https://ddragon.leagueoflegends.com/cdn/${version}/img/passive/${imageName}`,
+  CDN_BASE: 'https://ddragon.leagueoflegends.com/cdn',
+} as const;
+
+export const APP_CONFIG = {
+  NAME: 'LoL Champions Explorer',
+  VERSION: '1.0.0',
+  GITHUB_URL: 'https://github.com/YOUR_USERNAME/lol-champions',
+  DEMO_URL: 'https://YOUR_USERNAME.github.io/lol-champions',
 } as const;
 
 export const CHAMPION_ROLES = [

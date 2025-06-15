@@ -56,6 +56,17 @@ export interface ChampionStats {
   attackspeed: number;
 }
 
+// Define proper types instead of any
+export interface SpellDataValues {
+  [key: string]: number | string;
+}
+
+export interface SpellVariable {
+  key: string;
+  link: string;
+  coeff: number[];
+}
+
 export interface ChampionSpell {
   id: string;
   name: string;
@@ -70,10 +81,10 @@ export interface ChampionSpell {
   cooldownBurn: string;
   cost: number[];
   costBurn: string;
-  datavalues: any;
+  datavalues: SpellDataValues; // Fixed: was any
   effect: (number[] | null)[];
   effectBurn: (string | null)[];
-  vars: any[];
+  vars: SpellVariable[]; // Fixed: was any[]
   costType: string;
   maxammo: string;
   range: number[];
