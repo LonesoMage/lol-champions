@@ -1,0 +1,16 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "isolatedModules": false,
+    "types": ["cypress", "node"],
+    "lib": ["es2015", "dom"],
+    "target": "es2015",
+    "skipLibCheck": true,
+    "noEmit": true,
+    "moduleResolution": "node"
+  },
+  "include": [
+    "**/*.ts",
+    "../cypress.d.ts"
+  ]
+}
