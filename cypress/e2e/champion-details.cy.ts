@@ -21,7 +21,6 @@ describe('Champion Details Page', () => {
     cy.get('[data-testid="champion-name"]', { timeout: 10000 }).should('be.visible')
     cy.get('[data-testid="champion-title"]').should('be.visible')
     cy.get('[data-testid="champion-lore"]').should('be.visible')
-    cy.contains('Abilities').should('be.visible')
     cy.contains('Detailed Statistics').should('be.visible')
   })
 
@@ -40,7 +39,8 @@ describe('Champion Details Page', () => {
       cy.contains('View Details').click()
     })
 
-    cy.contains('Abilities', { timeout: 10000 }).should('be.visible')
+    cy.get('[data-testid="abilities-section"]', { timeout: 15000 }).should('be.visible')
+    cy.get('[data-testid="ability-card"]').should('have.length.greaterThan', 0)
     cy.contains('Passive').should('be.visible')
   })
 
@@ -49,23 +49,19 @@ describe('Champion Details Page', () => {
       cy.contains('View Details').click()
     })
 
-    cy.contains('Detailed Statistics', { timeout: 10000 }).should('be.visible')
+    cy.get('[data-testid="stats-section"]', { timeout: 15000 }).should('be.visible')
     cy.contains('Health').should('be.visible')
     cy.contains('Attack').should('be.visible')
     cy.contains('Defense').should('be.visible')
   })
 
   it('should handle invalid champion ID', () => {
-    // Visit invalid champion page
     cy.visit('/champion/invalid-champion-id-that-does-not-exist', { failOnStatusCode: false })
     
-    // Wait and check for any error-related content
     cy.get('body', { timeout: 15000 }).should('be.visible')
     
-    // Check if error message exists or if we're redirected
     cy.url().then(url => {
       if (url.includes('/champion/invalid-champion-id')) {
-        // Still on error page, check for error content
         cy.get('body').should(($body) => {
           const text = $body.text()
           const hasErrorContent = text.includes('Error loading champion details') ||

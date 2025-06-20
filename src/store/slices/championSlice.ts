@@ -15,7 +15,7 @@ const initialState: ChampionState = {
   championDetails: null,
   loading: false,
   error: null,
-  selectedRoles: [], // Changed to empty array
+  selectedRoles: [],
   searchQuery: '',
 };
 

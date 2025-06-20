@@ -430,108 +430,106 @@ export const ChampionDetailsPage = () => {
         </LoreText>
       </LoreSection>
 
-      <AbilitiesSection>
-        <SectionTitle>Abilities</SectionTitle>
-        <AbilitiesGrid>
-          {/* Passive Ability */}
-          <AbilityCard>
+      <AbilitiesSection data-testid="abilities-section">
+      <SectionTitle>Abilities</SectionTitle>
+      <AbilitiesGrid>
+        <AbilityCard data-testid="ability-card">
+          <AbilityHeader>
+            <AbilityIcon 
+              src={imageUrls.passive} 
+              alt={champion.passive.name}
+              onError={(e) => e.currentTarget.style.display = 'none'}
+            />
+            <AbilityInfo>
+              <AbilityName>{champion.passive.name}</AbilityName>
+              <AbilityType>Passive</AbilityType>
+            </AbilityInfo>
+          </AbilityHeader>
+          <AbilityDescription>
+            {cleanDescription(champion.passive.description)}
+          </AbilityDescription>
+        </AbilityCard>
+
+        {champion.spells.map((spell, index) => (
+          <AbilityCard key={spell.id} data-testid="ability-card">
             <AbilityHeader>
               <AbilityIcon 
-                src={imageUrls.passive} 
-                alt={champion.passive.name}
+                src={imageUrls.spells[index]} 
+                alt={spell.name}
                 onError={(e) => e.currentTarget.style.display = 'none'}
               />
               <AbilityInfo>
-                <AbilityName>{champion.passive.name}</AbilityName>
-                <AbilityType>Passive</AbilityType>
+                <AbilityName>{spell.name}</AbilityName>
+                <AbilityType>
+                  {index === 3 ? 'Ultimate' : `Ability ${['Q', 'W', 'E', 'R'][index]}`}
+                </AbilityType>
               </AbilityInfo>
+              <AbilityCooldownInfo>
+                {spell.cooldownBurn && `Cooldown: ${spell.cooldownBurn}s`}
+                {spell.costBurn && ` | Cost: ${spell.costBurn}`}
+              </AbilityCooldownInfo>
             </AbilityHeader>
             <AbilityDescription>
-              {cleanDescription(champion.passive.description)}
+              {cleanDescription(spell.description)}
             </AbilityDescription>
           </AbilityCard>
+        ))}
+      </AbilitiesGrid>
+    </AbilitiesSection>
 
-          {/* Active Abilities */}
-          {champion.spells.map((spell, index) => (
-            <AbilityCard key={spell.id}>
-              <AbilityHeader>
-                <AbilityIcon 
-                  src={imageUrls.spells[index]} 
-                  alt={spell.name}
-                  onError={(e) => e.currentTarget.style.display = 'none'}
-                />
-                <AbilityInfo>
-                  <AbilityName>{spell.name}</AbilityName>
-                  <AbilityType>
-                    {index === 3 ? 'Ultimate' : `Ability ${['Q', 'W', 'E', 'R'][index]}`}
-                  </AbilityType>
-                </AbilityInfo>
-                <AbilityCooldownInfo>
-                  {spell.cooldownBurn && `Cooldown: ${spell.cooldownBurn}s`}
-                  {spell.costBurn && ` | Cost: ${spell.costBurn}`}
-                </AbilityCooldownInfo>
-              </AbilityHeader>
-              <AbilityDescription>
-                {cleanDescription(spell.description)}
-              </AbilityDescription>
-            </AbilityCard>
-          ))}
-        </AbilitiesGrid>
-      </AbilitiesSection>
-
-      <DetailedStatsSection>
-        <SectionTitle>Detailed Statistics</SectionTitle>
-        <DetailedStatsGrid>
-          <DetailedStatItem>
-            <DetailedStatLabel>Health</DetailedStatLabel>
-            <DetailedStatValue>{champion.stats.hp}</DetailedStatValue>
-          </DetailedStatItem>
-          <DetailedStatItem>
-            <DetailedStatLabel>Health per Level</DetailedStatLabel>
-            <DetailedStatValue>+{champion.stats.hpperlevel}</DetailedStatValue>
-          </DetailedStatItem>
-          <DetailedStatItem>
-            <DetailedStatLabel>Mana</DetailedStatLabel>
-            <DetailedStatValue>{champion.stats.mp}</DetailedStatValue>
-          </DetailedStatItem>
-          <DetailedStatItem>
-            <DetailedStatLabel>Mana per Level</DetailedStatLabel>
-            <DetailedStatValue>+{champion.stats.mpperlevel}</DetailedStatValue>
-          </DetailedStatItem>
-          <DetailedStatItem>
-            <DetailedStatLabel>Movement Speed</DetailedStatLabel>
-            <DetailedStatValue>{champion.stats.movespeed}</DetailedStatValue>
-          </DetailedStatItem>
-          <DetailedStatItem>
-            <DetailedStatLabel>Armor</DetailedStatLabel>
-            <DetailedStatValue>{champion.stats.armor}</DetailedStatValue>
-          </DetailedStatItem>
-          <DetailedStatItem>
-            <DetailedStatLabel>Magic Resist</DetailedStatLabel>
-            <DetailedStatValue>{champion.stats.spellblock}</DetailedStatValue>
-          </DetailedStatItem>
-          <DetailedStatItem>
-            <DetailedStatLabel>Attack Damage</DetailedStatLabel>
-            <DetailedStatValue>{champion.stats.attackdamage}</DetailedStatValue>
-          </DetailedStatItem>
-          <DetailedStatItem>
-            <DetailedStatLabel>Attack Speed</DetailedStatLabel>
-            <DetailedStatValue>{champion.stats.attackspeed.toFixed(3)}</DetailedStatValue>
-          </DetailedStatItem>
-          <DetailedStatItem>
-            <DetailedStatLabel>Attack Range</DetailedStatLabel>
-            <DetailedStatValue>{champion.stats.attackrange}</DetailedStatValue>
-          </DetailedStatItem>
-          <DetailedStatItem>
-            <DetailedStatLabel>Health Regeneration</DetailedStatLabel>
-            <DetailedStatValue>{champion.stats.hpregen}</DetailedStatValue>
-          </DetailedStatItem>
-          <DetailedStatItem>
-            <DetailedStatLabel>Mana Regeneration</DetailedStatLabel>
-            <DetailedStatValue>{champion.stats.mpregen}</DetailedStatValue>
-          </DetailedStatItem>
-        </DetailedStatsGrid>
-      </DetailedStatsSection>
+    <DetailedStatsSection data-testid="stats-section">
+      <SectionTitle>Detailed Statistics</SectionTitle>
+      <DetailedStatsGrid>
+        <DetailedStatItem>
+          <DetailedStatLabel>Health</DetailedStatLabel>
+          <DetailedStatValue>{champion.stats.hp}</DetailedStatValue>
+        </DetailedStatItem>
+        <DetailedStatItem>
+          <DetailedStatLabel>Health per Level</DetailedStatLabel>
+          <DetailedStatValue>+{champion.stats.hpperlevel}</DetailedStatValue>
+        </DetailedStatItem>
+        <DetailedStatItem>
+          <DetailedStatLabel>Mana</DetailedStatLabel>
+          <DetailedStatValue>{champion.stats.mp}</DetailedStatValue>
+        </DetailedStatItem>
+        <DetailedStatItem>
+          <DetailedStatLabel>Mana per Level</DetailedStatLabel>
+          <DetailedStatValue>+{champion.stats.mpperlevel}</DetailedStatValue>
+        </DetailedStatItem>
+        <DetailedStatItem>
+          <DetailedStatLabel>Movement Speed</DetailedStatLabel>
+          <DetailedStatValue>{champion.stats.movespeed}</DetailedStatValue>
+        </DetailedStatItem>
+        <DetailedStatItem>
+          <DetailedStatLabel>Armor</DetailedStatLabel>
+          <DetailedStatValue>{champion.stats.armor}</DetailedStatValue>
+        </DetailedStatItem>
+        <DetailedStatItem>
+          <DetailedStatLabel>Magic Resist</DetailedStatLabel>
+          <DetailedStatValue>{champion.stats.spellblock}</DetailedStatValue>
+        </DetailedStatItem>
+        <DetailedStatItem>
+          <DetailedStatLabel>Attack Damage</DetailedStatLabel>
+          <DetailedStatValue>{champion.stats.attackdamage}</DetailedStatValue>
+        </DetailedStatItem>
+        <DetailedStatItem>
+          <DetailedStatLabel>Attack Speed</DetailedStatLabel>
+          <DetailedStatValue>{champion.stats.attackspeed.toFixed(3)}</DetailedStatValue>
+        </DetailedStatItem>
+        <DetailedStatItem>
+          <DetailedStatLabel>Attack Range</DetailedStatLabel>
+          <DetailedStatValue>{champion.stats.attackrange}</DetailedStatValue>
+        </DetailedStatItem>
+        <DetailedStatItem>
+          <DetailedStatLabel>Health Regeneration</DetailedStatLabel>
+          <DetailedStatValue>{champion.stats.hpregen}</DetailedStatValue>
+        </DetailedStatItem>
+        <DetailedStatItem>
+          <DetailedStatLabel>Mana Regeneration</DetailedStatLabel>
+          <DetailedStatValue>{champion.stats.mpregen}</DetailedStatValue>
+        </DetailedStatItem>
+      </DetailedStatsGrid>
+    </DetailedStatsSection>
     </Container>
   );
 };

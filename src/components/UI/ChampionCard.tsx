@@ -127,8 +127,6 @@ const ButtonContainer = styled.div`
 export const ChampionCard = ({ champion, onViewDetails }: ChampionCardProps) => {
   const [imageUrl, setImageUrl] = useState<string>('');
   const [imageLoading, setImageLoading] = useState(true);
-
-  // Load image URL
   useState(() => {
     championService.getChampionImageUrl(champion.image.full).then(url => {
       setImageUrl(url);
